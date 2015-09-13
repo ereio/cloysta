@@ -4,8 +4,7 @@
  * http://www.cplusplus.com/reference/cstdlib/malloc/
  * http://stackoverflow.com/questions/3642010/comparing-int-with-size-t
  * http://www.gnu.org/software/libc/manual/html_node/Memory-Allocation-and-C.html
- * http://www.cplusplus.com/reference/cstring/memcpy/
- *
+ * http://www.cplusplus.com/reference/cstring/memcpy
  *
  * */
 
@@ -54,10 +53,6 @@ int purge_memmy(){
 		free(ADDRS[i]->loc);
 		if(_init(ADDRS[i]) == -1) return -1;
 	}
-
-	return 0;
-}
-
 
 /* fetch_heap
  * fetch data in heap (by name)
@@ -282,6 +277,3 @@ struct address* _next_addr(){
 	if(i == MAX_HEAP_SIZE)
 	return NULL;
 }
-
-
-

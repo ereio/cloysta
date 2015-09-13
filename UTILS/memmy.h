@@ -1,7 +1,6 @@
 #ifndef _MEMMY
 #define _MEMMY
 
-
 struct address* ADDRS = NULL;
 
 int init_memmy();
