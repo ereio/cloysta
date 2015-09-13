@@ -4,9 +4,10 @@
  *
  * */
 #include "parse.h"
-#include "shared.h"
 #include <stdio.h>
 #include <string.h>
+#include "global.h"
+#include "memmy.h";
 
 char** _Parse(char* input){
 
@@ -28,11 +29,12 @@ char *parse_whitespace(char *input) {
 
 char **parse_arguments(char *input) {
 
-	char* new_args[256];
-	char* cur_arg;
+	char* new_args = set_string(ARGS, 255);
+	char* cur_arg[255];
 	int i = 0;
 
 	cur_arg = strtok(input, _DELIMS);
+
 	while(cur_arg != NULL){
 		new_args[i]= cur_arg;
 		cur_arg = strtok(input, _DELIMS);
