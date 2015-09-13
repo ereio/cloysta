@@ -1,7 +1,7 @@
 #include "execute.h"
-#include "shared.h"
 #include <string.h>
 #include <stdio.h>
+#include "global.h"
 
 int _Execute(char** args)
 {
