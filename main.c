@@ -20,6 +20,13 @@ const char* ARGS = "ARGS";
 int run = 1;
 int dummy_test = -5;
 
+/* ALL EXITING TASKS DONE HERE */
+int exit_shell(){
+
+	return purge_memmy();
+}
+
+
 int main(int argc, char* args[])
 {
 	char *line;
@@ -29,23 +36,18 @@ int main(int argc, char* args[])
 
 	while(run)
 	{
-		 _Setup();
-		 _Prompt();
-		 line = _Read();
+		 _setup();
+		 _prompt();
+		 line = _read();
 	  /* Transform input
 		 Match against patterns */
-		 cmd = _Parse(line);
-		 _Execute(cmd);
+		 cmd = _parse(line);
+		 _execute(cmd);
 	  /* cleanup */
 	}
 	
-	return exit();
+	return exit_shell();
 }
 
-/* ALL EXITING TASKS DONE HERE */
-int exit(){
-
-	return purge_memmy();
-}
 
 

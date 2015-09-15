@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-int _Prompt(char** settings)
+int _prompt(char** settings)
 {
 	char* prompt = getenv("USER");
 

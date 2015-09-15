@@ -13,6 +13,7 @@ struct address{
 	char name[16];
 };
 
+
 /* Constants  */
 extern const char* EXIT;
 extern const char* ECHO;
@@ -25,7 +26,7 @@ extern const char* _PIPES;
 extern const char* ARGS;
 
 /* Globals  */
-extern struct address *ADDRS;
+extern struct address * ADDRS;
 
 extern int dummy_test;
 extern int run;

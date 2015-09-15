@@ -7,9 +7,9 @@
 #include <stdio.h>
 #include <string.h>
 #include "global.h"
-#include "memmy.h";
+#include "../UTILS/memmy.h"
 
-char** _Parse(char* input){
+char** _parse(char* input){
 
 	char** args;
 
@@ -29,18 +29,17 @@ char *parse_whitespace(char *input) {
 
 char **parse_arguments(char *input) {
 
-	char* new_args = set_string(ARGS, 255);
-	char* cur_arg[255];
+	char* new_args = set_stringn(ARGS, 255);
+	char* cur_arg;
 	int i = 0;
 
 	cur_arg = strtok(input, _DELIMS);
 
 	while(cur_arg != NULL){
-		new_args[i]= cur_arg;
+		strcpy(new_args[i], cur_arg);
 		cur_arg = strtok(input, _DELIMS);
 	}
 
-	/* memcpy(new_args) */
 	return new_args;
 }
 

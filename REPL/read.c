@@ -1,7 +1,7 @@
 #include "read.h"
 #include <stdio.h>
 
-char* _Read()
+char* _read()
 {
 	char str[256];
 

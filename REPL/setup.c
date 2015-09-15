@@ -1,7 +1,7 @@
 #include "setup.h"
 
 
-int _Setup()
+int _setup()
 {
 	
 	return 0;

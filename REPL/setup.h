@@ -1,7 +1,7 @@
 #ifndef _SETUP
 #define _SETUP
 
-int _Setup();
+int _setup();
 
 #endif
 

@@ -1,6 +1,6 @@
 C=gcc
 CFLAGS=-I. -ansi -pedantic -Wall
-ALL_OBJS=setup.o prompt.o parse.o read.o execute.o
+ALL_OBJS=setup.o prompt.o parse.o read.o execute.o memmy.o
 
 .PHONY : compile clean run tar
 compile : cloysta
@@ -9,6 +9,8 @@ cloysta : main.o $(ALL_OBJS)
 	$(CC) $(CFLAGS) main.o $(ALL_OBJS) -o cloysta
 	rm -f *.o
 
+memmy.o : UTILS/memmy.*
+	$(CC) $(CFLAGS) -o memmy.o -c ./UTILS/memmy.c
 util.o : UTILS/util.c
 	$(CC) $(CFLAGS) -o util.o -c ./UTILS/util.c
 setup.o: REPL/setup.c

@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include "global.h"
 
-int _Execute(char** args)
+int _execute(char** args)
 {
 	/* const char* command = args[0]; */
 
