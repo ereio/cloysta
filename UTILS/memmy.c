@@ -11,7 +11,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "global.h"
+#include <stddef.h>
+#include "../global.h"
 #include "memmy.h"
 
 /*
@@ -21,6 +22,7 @@
  * using strings. Using double in case 64 bit machines become an issue. Should be compiled
  * in 32 anyway
  * */
+struct address* ADDRS = NULL;
 
 						/* Internal Management */
 /***************************************************************************/
@@ -31,31 +33,31 @@ int _clear(struct address * addr){
 	if(addr->loc != NULL) free(addr->loc);
 
 	addr->loc = NULL;
-	addr->name = NULL;
-	addr->type = NULL;
+	addr->name[0] = '\0';
+	addr->type = sizeof(void *);
 
 	return 0;
 }
 
 /* Initializes an address with the specified elements*/
-int _init(struct address * addr, const char* name, size_t type, int* loc){
+int internal_init(struct address * addr, const char* name, size_t type, int* loc){
 	if(addr == NULL) return -1;
 
-	memcpy(addr->loc, loc, sizeof(loc));
+	memcpy(addr->loc, loc, sizeof(int*));
 	memcpy(addr->name, name, strlen(name)+1);
-	memcpy(addr->type, type, sizeof(type));
+	addr->type = type;
 
 	return 0;
 }
 
 /* Returns next empty address for heap allocation */
-struct address* _next_addr(){
+struct address * _next_addr(){
 
 	int i = 0;
 
 	for(i = 0; i < MAX_HEAP_SIZE; i++){
 		if(ADDRS[i].loc == NULL){
-			return* ADDRS[i];
+			return &ADDRS[i];
 		}
 	}
 	return NULL;
@@ -63,9 +65,6 @@ struct address* _next_addr(){
 
 
 /***************************************************************************/
-
-
-struct address* ADDRS = NULL;
 
 /* Initializes the memory map to null values but creates the space that will
  * house heap information
@@ -78,8 +77,12 @@ int init_memmy(){
 
 	ADDRS = (struct address *) malloc(sizeof(struct address) * MAX_HEAP_SIZE);
 
+	printf("%i", (int) sizeof(ADDRS));
+
+	if(ADDRS == NULL) return 0;
+
 	for(i = 0; i < MAX_HEAP_SIZE; i++){
-		_clear(ADDRS[i]);
+		_clear(&ADDRS[i]);
 	}
 
 	return 1;
@@ -93,7 +96,7 @@ int purge_memmy(){
 	int i = 0;
 	for(i = 0; i < MAX_HEAP_SIZE; i++){
 		free(ADDRS[i].loc);
-		if(_clear(*ADDRS[i]) == -1) return -1;
+		if(_clear(&ADDRS[i]) == -1) return -1;
 	}
 
 	return 0;
@@ -124,7 +127,7 @@ int free_heap(const char* name){
 	for(i = 0; i < MAX_HEAP_SIZE; i++){
 		if(strcmp(name, ADDRS[i].name) == 0){
 			free(ADDRS[i].loc);
-			_clear(ADDRS[i]);
+			_clear(&ADDRS[i]);
 			return 1;
 		}
 	}
@@ -132,10 +135,27 @@ int free_heap(const char* name){
 	return 0;
 }
 
-/* Resizes heap based on the addr struct and size passed in */
+/* Resizes heap based on the addr struct and size passed in
 int resize_heap(struct address * addr, size_t size){
 	addr->loc = realloc(addr->loc, size);
 	return 0;
+}
+*/
+
+void print_memmy(){
+
+	int x = 0;
+
+	FILE* f = fopen("log.txt", "a+");
+	fprintf(f, "%s", "********* LOGGING ADDRESS ARRAY **********\n\n\n");
+
+	for(x = 0; x < MAX_HEAP_SIZE; x++){
+			if(ADDRS[x].loc == NULL){
+				fprintf(f,"location: %p \n", (void *) ADDRS[x].loc);
+				fprintf(f,"type: %zu \n", ADDRS[x].type);
+				fprintf(f,"name: %s \n\n", ADDRS[x].name);
+			}
+		}
 }
 
 /* creates a simple char* (string) with a name
@@ -148,7 +168,7 @@ char* set_stringn(const char* name, int size){
 
 	if(addr == NULL) return NULL;
 
-	_init(addr, name, sizeof(char*), malloc(size * sizeof(char*)));
+	internal_init(addr, name, sizeof(char*), malloc(size * sizeof(char*)));
 
 	return (char*) addr->loc;
 }
@@ -163,7 +183,7 @@ char* set_string(int size){
 
 	if(addr == NULL) return NULL;
 
-	_init(addr, "array", sizeof(char*), malloc(size * sizeof(char*)));
+	internal_init(addr, "array", sizeof(char*), malloc(size * sizeof(char*)));
 
 	return (char*) addr->loc;
 }
@@ -177,7 +197,7 @@ char** set_array(int rows, int cols){
 
 	if(addr == NULL) return NULL;
 
-	_init(addr, "array", sizeof(char*), calloc(rows, cols * sizeof(char*)));
+	internal_init(addr, "array", sizeof(char*), calloc(rows, cols * sizeof(char*)));
 
 	return (char**) addr->loc;
 }
@@ -191,7 +211,7 @@ void* set_arrayn(char* name,  size_t type){
 
 	if(addr == NULL) return NULL;
 
-	_init(addr, name, type, calloc(DEFAULT_ALLOC, type));
+	internal_init(addr, name, type, calloc(DEFAULT_ALLOC, type));
 
 	return addr->loc;
 }
@@ -205,7 +225,7 @@ void* set_arraynr(char* name, int rows, size_t type){
 
 	if(addr == NULL) return NULL;
 
-	_init(addr, name, type, calloc(rows, type));
+	internal_init(addr, name, type, calloc(rows, type));
 
 	return addr->loc;
 }
@@ -219,7 +239,7 @@ void* set_arraynrc(char* name, int rows, int cols, size_t type){
 
 	if(addr == NULL) return NULL;
 
-	_init(addr, name, type, malloc(rows * cols * type));
+	internal_init(addr, name, type, malloc(rows * cols * type));
 
 	return addr->loc;
 }
@@ -233,7 +253,7 @@ void* set_heapt(size_t type){
 
 	if(addr == NULL) return NULL;
 
-	_init(addr, "Default", type,  malloc(DEFAULT_ALLOC * type));
+	internal_init(addr, "Default", type,  malloc(DEFAULT_ALLOC * type));
 
 	return addr->loc;
 }
@@ -247,7 +267,7 @@ void* set_heapst(size_t size, size_t type){
 
 	if(addr == NULL) return NULL;
 
-	_init(addr,"Default", type, malloc(size * type));
+	internal_init(addr,"Default", type, malloc(size * type));
 
 	return addr->loc;
 }
@@ -262,7 +282,7 @@ void* set_heaprct(int rows, int cols, size_t type){
 
 	if(addr == NULL) return NULL;
 
-	_init(addr,"Default", type, malloc(rows * cols * type));
+	internal_init(addr,"Default", type, malloc(rows * cols * type));
 
 	return addr->loc;
 }
@@ -276,7 +296,7 @@ void* set_file(char* name, size_t size, size_t type){
 
 	if(addr == NULL) return NULL;
 
-	_init(addr, name, type, malloc(size * type));
+	internal_init(addr, name, type, malloc(size * type));
 
 	return addr->loc;
 }

@@ -32,18 +32,24 @@ int main(int argc, char* args[])
 	char *line;
 	char **cmd;
 
-	init_memmy();
+	if(!init_memmy()) return 1;
+
+	line = set_string(255);
+	cmd = set_array(1, 255);
 
 	while(run)
 	{
 		 _setup();
 		 _prompt();
-		 line = _read();
-	  /* Transform input
-		 Match against patterns */
-		 cmd = _parse(line);
-		 _execute(cmd);
-	  /* cleanup */
+		 if(_read(line)){
+			 /* Transform input
+				 Match against patterns */
+			 _parse(line, cmd);
+			 _execute(cmd);
+			  /* cleanup */
+		 } else {
+			 run = 0;
+		 }
 	}
 	
 	return exit_shell();

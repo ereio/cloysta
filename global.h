@@ -13,7 +13,6 @@ struct address{
 	char name[16];
 };
 
-
 /* Constants  */
 extern const char* EXIT;
 extern const char* ECHO;

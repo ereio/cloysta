@@ -6,7 +6,6 @@ int purge_memmy();
 
 void* fetch_heap(const char* name);
 int free_heap(const char* name);
-int resize_heap(struct address * addr, size_t size);
 
 char* set_string(int size);
 char* set_stringn(const char* name, int size);
