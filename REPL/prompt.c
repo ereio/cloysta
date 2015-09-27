@@ -5,9 +5,11 @@
 
 int _prompt(char** settings)
 {
-	char* dir = getenv("PWD");
 
-	printf("\n%s %s > ", cuser, dir);
+	char* machine = getenv("MACHINE");
+	char* pwd = getenv("PWD");
+
+	printf("%s@%s: %s => ", cuser, machine, pwd);
 
 	return 0;
 }
