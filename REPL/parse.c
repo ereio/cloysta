@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include "../global.h"
 
-void _parse(char* input, char** args){
+void _parse(char* input, char args[][ACOLS]){
 
 	parse_whitespace(input);
 	parse_arguments(input, args);
@@ -22,7 +22,7 @@ void parse_whitespace(char* input) {
 
 }
 
-void parse_arguments(char* input, char** args) {
+void parse_arguments(char* input, char args[][ACOLS]) {
 
 	char new_args[255][255];
 	char* cur_arg = malloc(255 * sizeof(char*));
@@ -40,13 +40,12 @@ void parse_arguments(char* input, char** args) {
 
 	memcpy(args, new_args, sizeof(new_args));
 	free(cur_arg);
+}
+
+void resolve_paths(char args[][ACOLS]) {
 
 }
 
-void resolve_paths(char** args) {
-
-}
-
-void expand_variables(char** args) {
+void expand_variables(char args[][ACOLS]) {
 
 }

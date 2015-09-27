@@ -1,5 +1,7 @@
 /* Global References for Command Strings, Deliminators, etc. */
-
+#ifndef _SIZE_T
+#include <stddef.h>
+#endif
 
 /* Defines  */
 #define MAX_HEAP_SIZE 255
@@ -23,6 +25,7 @@ extern const char* _DELIMS;
 extern const char* _PIPES;
 
 extern const char* ARGS;
+extern const int ACOLS;
 
 /* Globals  */
 extern struct address * ADDRS;

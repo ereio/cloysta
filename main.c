@@ -1,11 +1,11 @@
 #include <stdio.h>
+#include "global.h"
 #include "REPL/setup.h"
 #include "REPL/prompt.h"
 #include "REPL/parse.h"
 #include "REPL/read.h"
 #include "REPL/execute.h"
 #include "UTILS/memmy.h"
-#include "global.h"
 
 /*  run/dumm... is an extern, it's a global and is not redefined but declared here */
 const char* EXIT = "exit";
@@ -16,6 +16,7 @@ const char* CD = "cd";
 const char* _DELIMS = " \n";
 const char* _PIPES = "|<>";
 const char* ARGS = "ARGS";
+const int ACOLS = 255;
 
 int run = 1;
 int dummy_test = -5;
@@ -43,7 +44,7 @@ int main(int argc, char* args[])
 		 if(_read(line)){
 			 /* Transform input
 				 Match against patterns */
-			 _parse(line, &cmd);
+			 _parse(line, cmd);
 			 _execute(cmd);
 			  /* cleanup */
 		 } else {

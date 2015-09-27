@@ -1,9 +1,10 @@
+#include "../global.h"
 #include "execute.h"
 #include <string.h>
 #include <stdio.h>
-#include "../global.h"
 
-int _execute(char** args)
+
+int _execute(char args[][ACOLS])
 {
 	/* const char* command = args[0]; */
 
