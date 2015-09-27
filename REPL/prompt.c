@@ -4,9 +4,11 @@
 
 int _prompt(char** settings)
 {
-	char* prompt = getenv("USER");
+	char* user = getenv("USER");
+	char* machine = getenv("MACHINE");
+	char* pwd = getenv("PWD");
 
-	printf("%s > ", prompt);
+	printf("%s@%s: %s => ", user, machine, pwd);
 
 	return 0;
 }
