@@ -3,4 +3,7 @@
 
 int _execute(char args[][ACOLS]);
 
+
+int chgdir(char args[][ACOLS]);
+
 #endif

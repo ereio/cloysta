@@ -1,12 +1,13 @@
 #include "prompt.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include "../global.h"
 
 int _prompt(char** settings)
 {
-	char* prompt = getenv("USER");
+	char* dir = getenv("PWD");
 
-	printf("%s > ", prompt);
+	printf("\n%s %s > ", cuser, dir);
 
 	return 0;
 }
