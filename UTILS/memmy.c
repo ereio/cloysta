@@ -43,7 +43,8 @@ int _clear(struct address * addr){
 int internal_init(struct address * addr, const char* name, size_t type, int* loc){
 	if(addr == NULL) return -1;
 
-	memcpy(addr->loc, loc, sizeof(int*));
+	addr->loc = loc;
+	// strcpy(addr->name, name);
 	memcpy(addr->name, name, strlen(name)+1);
 	addr->type = type;
 
@@ -95,8 +96,10 @@ int purge_memmy(){
 
 	int i = 0;
 	for(i = 0; i < MAX_HEAP_SIZE; i++){
-		free(ADDRS[i].loc);
-		if(_clear(&ADDRS[i]) == -1) return -1;
+		if(ADDRS[i].loc != NULL)
+			free(ADDRS[i].loc);
+		if(_clear(&ADDRS[i]) == -1)
+			return -1;
 	}
 
 	return 0;

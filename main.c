@@ -13,7 +13,7 @@ const char* ECHO = "echo";
 const char* ETIME = "etime";
 const char* LIMITS = "limits";
 const char* CD = "cd";
-const char* _DELIMS = " ";
+const char* _DELIMS = " \n";
 const char* _PIPES = "|<>";
 const char* ARGS = "ARGS";
 
@@ -30,12 +30,11 @@ int exit_shell(){
 int main(int argc, char* args[])
 {
 	char *line;
-	char **cmd;
+	char cmd[255][255];
 
-	if(!init_memmy()) return 1;
+ 	if(!init_memmy()) return 1;
 
 	line = set_string(255);
-	cmd = set_array(1, 255);
 
 	while(run)
 	{
@@ -44,7 +43,7 @@ int main(int argc, char* args[])
 		 if(_read(line)){
 			 /* Transform input
 				 Match against patterns */
-			 _parse(line, cmd);
+			 _parse(line, &cmd);
 			 _execute(cmd);
 			  /* cleanup */
 		 } else {

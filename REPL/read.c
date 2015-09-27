@@ -7,11 +7,10 @@ int _read(char* line)
 {
 	char* str = malloc(255 * sizeof(char*));
 
-	if(scanf("%s", str)){
-		strcpy(line, str);
-		free(str);
-		return 1;
-	}
-	free(str);
-	return 0;
+	fgets(str, 255, stdin);
+	strcpy(line, str);
+
+	if(str != NULL) free(str);
+
+	return line == NULL ? 0 : 1;
 }
