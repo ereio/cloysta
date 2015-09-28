@@ -18,13 +18,20 @@ int _execute(char args[][ACOLS])
 	else if(!strcmp(LIMITS, args[0]))
 		dummy_test = 3;
 	else if(!strcmp(CD, args[0]))
-		dummy_test = 4;
+		chgdir(args);
 
 	/* External, parse for command in path */
 
 	/* run_external(input); */
 
 	printf(" %d\n", dummy_test);
+
+	return 0;
+}
+
+int chgdir(char args[][ACOLS]){
+
+
 
 	return 0;
 }

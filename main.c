@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "global.h"
 #include "REPL/setup.h"
 #include "REPL/prompt.h"
@@ -7,7 +8,7 @@
 #include "REPL/execute.h"
 #include "UTILS/memmy.h"
 
-/*  run/dumm... is an extern, it's a global and is not redefined but declared here */
+/* Global const defines */
 const char* EXIT = "exit";
 const char* ECHO = "echo";
 const char* ETIME = "etime";
@@ -15,9 +16,14 @@ const char* LIMITS = "limits";
 const char* CD = "cd";
 const char* _DELIMS = " \n";
 const char* _PIPES = "|<>";
+const char* PREV_DIR_I = "..";
+const char* PREV_DIR_II = "./";
 const char* ARGS = "ARGS";
 const int ACOLS = 255;
 
+/* Globals */
+char* cuser;
+int margc = 0;
 int run = 1;
 int dummy_test = -5;
 
@@ -33,9 +39,13 @@ int main(int argc, char* args[])
 	char *line;
 	char cmd[255][255];
 
- 	if(!init_memmy()) return 1;
 
-	line = set_string(255);
+ 	if(!init_memmy()) return 1;	/* Address Mem intialization*/
+
+ 	cuser = set_string(255);	/* User handle */
+ 	cuser = getenv("USER");
+
+	line = set_string(255);		/* current command line init */
 
 	while(run)
 	{

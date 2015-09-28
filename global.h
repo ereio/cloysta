@@ -22,14 +22,18 @@ extern const char* ETIME;
 extern const char* LIMITS;
 extern const char* CD;
 extern const char* _DELIMS;
+extern const char* PREV_DIR_I;
+extern const char* PREV_DIR_II;
 extern const char* _PIPES;
 
 extern const char* ARGS;
 extern const int ACOLS;
+extern char* cuser;
 
 /* Globals  */
 extern struct address * ADDRS;
 
 extern int dummy_test;
+extern int margc;
 extern int run;
 
