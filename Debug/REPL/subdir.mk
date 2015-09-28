@@ -4,6 +4,7 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
+../REPL/echo.c \
 ../REPL/execute.c \
 ../REPL/parse.c \
 ../REPL/prompt.c \
@@ -11,6 +12,7 @@ C_SRCS += \
 ../REPL/setup.c 
 
 OBJS += \
+./REPL/echo.o \
 ./REPL/execute.o \
 ./REPL/parse.o \
 ./REPL/prompt.o \
@@ -18,6 +20,7 @@ OBJS += \
 ./REPL/setup.o 
 
 C_DEPS += \
+./REPL/echo.d \
 ./REPL/execute.d \
 ./REPL/parse.d \
 ./REPL/prompt.d \
@@ -29,7 +32,7 @@ C_DEPS += \
 REPL/%.o: ../REPL/%.c
 	@echo 'Building file: $<'
 	@echo 'Invoking: GCC C Compiler'
-	gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
+	gcc -O0 -g3 -Wall -c -fmessage-length=0 -std=c99 -D_XOPEN_SOURCE -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 

@@ -9,6 +9,7 @@
 int _prompt(char** settings)
 {
 	char* machine = getenv("MACHINE");
+
 	char buf[MAXPATHLEN];
 	char* pwd = getcwd(buf, MAXPATHLEN);
 

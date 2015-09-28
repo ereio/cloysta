@@ -1,6 +1,11 @@
 C=gcc
+<<<<<<< HEAD
+CFLAGS=-I. -ansi -pedantic -Wall -std=c99 -D_XOPEN_SOURCE
+ALL_OBJS=setup.o prompt.o parse.o read.o execute.o memmy.o
+=======
 CFLAGS=-I. -ansi -pedantic -Wall -std=c99
 ALL_OBJS=setup.o prompt.o parse.o read.o echo.o execute.o memmy.o
+>>>>>>> 1caa3fd6721c42b3151a6dc0b69fc11aef5f522b
 
 .PHONY : compile clean run tar
 compile : cloysta
