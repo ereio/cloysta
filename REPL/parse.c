@@ -88,8 +88,8 @@ void fillTild(char args[][ACOLS], int n){
 	char* totarg = malloc(255 * sizeof(char));
 
 	if(args[n][0] == '~'){
-			strcat(totarg, home);
-			strcat(totarg, args[n]+1);
+		strcat(totarg, home);
+		strcat(totarg, args[n]+1);
 	}
 
 	strcpy(args[n], totarg);
@@ -100,6 +100,12 @@ void sinsert(char* main, char* ins){
 }
 
 void fillPwd(char args[][ACOLS]){
+	char* pwd = getenv("PWD");
+	char* totcmd = malloc(255 * sizeof(char));
 
+	strcat(totcmd, pwd);
+	strcat(totcmd, args[0]);
+
+	strcpy(args[0], totcmd);
 }
 
