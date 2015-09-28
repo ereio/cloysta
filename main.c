@@ -43,7 +43,7 @@ int main(int argc, char* args[])
  	if(!init_memmy()) return 1;	/* Address Mem intialization*/
 
  	cuser = set_string(255);	/* User handle */
- 	cuser = getenv("USER");
+ 	cuser = getenv("USERNAME");
 
 	line = set_string(255);		/* current command line init */
 

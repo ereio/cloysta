@@ -11,8 +11,9 @@ void echo_text(char arg[][ACOLS]) {
 
 char* verify_text(char arg[][ACOLS]) {
 	char * tmp = malloc(sizeof(char) * 255);
+	*tmp = '\0';
 
-	for (int i = 1; i < 254; i++) {
+	for (int i = 1; i < margc - 1; i++) {
 		if (arg[i][0] == '$') {
 			char s[ACOLS];
 			strcpy(s, arg[i]+1);
@@ -26,16 +27,8 @@ char* verify_text(char arg[][ACOLS]) {
 				return "Error: environment variable not found\n";
 		}
 
-		int null_terminated = 0;
-		for (int j = 254; j < -1; j++) {
-			if (arg[i][j] == '\0') {
-				null_terminated = 1;
-				break;
-			}
-		}
-
-		if (null_terminated)
-			strcat(tmp, arg[i]);
+		strcat(tmp, arg[i]);
+		strcat(tmp, " ");
 	}
 
 	strcat(tmp, "\n");
