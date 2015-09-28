@@ -5,8 +5,13 @@ This shell is intended for submittion for Florida State's Operating Systems cour
 
 Working References:
 
-Globals: http://stackoverflow.com/questions/1433204/how-do-i-use-extern-to-share-variables-between-source-files-in-c
-
+ - http://stackoverflow.com/questions/1433204/how-do-i-use-extern-to-share-variables-between-source-files-in-c
+ - http://stackoverflow.com/questions/3356505/remove-first-char-of-string-c
+ - http://stackoverflow.com/questions/6967889/initializing-a-pointer-to-a-string
+ - http://stackoverflow.com/questions/8427436/how-can-i-check-whether-this-is-directory-path-or-any-filename-path
+ - http://stackoverflow.com/questions/2150291/how-do-i-measure-a-time-interval-in-c
+ - http://man7.org/linux/man-pages/man2/getpid.2.html
+ - http://stackoverflow.com/questions/16863704/stdlib-h-doesnt-have-declaration-for-putenv
 
 Old Ideas on memory management:
 
