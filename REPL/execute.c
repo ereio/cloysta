@@ -7,8 +7,8 @@
 #include <time.h>
 #include <sys/time.h>
 #include "../global.h"
-#include "execute.h"
 #include "echo.h"
+#include "execute.h"
 
 int _execute(char args[][ACOLS])
 {
@@ -35,26 +35,14 @@ int chgdir(char args[][ACOLS]){
 		printf("Error: too many arguments\n");
 	}
 	else if (margc == 0) {
-		char * dir = malloc(260 * sizeof(char));
-		*dir = '\0';
-
-		strcat(dir, "PWD=");
-		strcat(dir, getenv("HOME"));
-		putenv(dir);
-		free(dir);
+		chdir(getenv("HOME"));
 	}
 	else {
 		struct stat statbuf;
 		stat(args[1], &statbuf);
 
 		if (S_ISDIR(statbuf.st_mode)) {
-			char * dir = malloc(260 * sizeof(char)); // Need a couple more characters to fit "PWD="
-			*dir = '\0';
-
-			strcat(dir, "PWD=");
-			strcat(dir, args[1]);
-			putenv(dir);
-			free(dir);
+			chdir(args[1]);
 		}
 		else {
 			printf("Error: invalid directory\n");
@@ -67,6 +55,7 @@ int chgdir(char args[][ACOLS]){
 int etime(char args[][ACOLS]) {
 	char nested_args[255][ACOLS];
 	struct timeval start, end;
+	margc--;
 
 	for (int i = 0; i < ACOLS - 1; i++) {
 		strcpy(nested_args[i], args[i+1]);
@@ -79,16 +68,14 @@ int etime(char args[][ACOLS]) {
 	float elapsed_time = ((end.tv_sec + (end.tv_usec / 1000000.0)) -
 			(start.tv_sec + (start.tv_usec / 1000000.0)));
 
-	printf("Elapsed Time: %.6fs", elapsed_time);
-
-	fflush(stdout);
-
+	printf("Elapsed Time: %.6fs\n", elapsed_time);
 	return 0;
 }
 
 int compute_limits(char args[][ACOLS]) {
 	pid_t pid = getpid();
 	char nested_args[255][ACOLS];
+	margc--;
 
 	for (int i = 0; i < ACOLS - 1; i++) {
 		strcpy(nested_args[i], args[i+1]);
@@ -96,9 +83,10 @@ int compute_limits(char args[][ACOLS]) {
 
 	_execute(nested_args);
 
-	char *proc = "/proc/";
-	proc += sprintf(proc, "%ld", (long)pid);
-	proc += sprintf(proc, "/limits/");
+	char proc[50];
+	sprintf(proc, "/proc/%ld/limits/", (long)pid);
+
+	printf("%s\n", proc);
 
 	FILE * limits = fopen(proc, "r");
 
@@ -106,6 +94,7 @@ int compute_limits(char args[][ACOLS]) {
 		char line[255];
 
 		while (fgets(line, 255, limits) != NULL) {
+			printf("%s", line);
 			if (strstr(line, "Max file size"))
 				printf("%s", line);
 			else if (strstr(line, "Max open files"))
