@@ -94,8 +94,6 @@ int purge_memmy(){
 
 	int i = 0;
 	for(i = 0; i < MAX_HEAP_SIZE; i++){
-		if(ADDRS[i].loc != NULL)
-			free(ADDRS[i].loc);
 		if(_clear(&ADDRS[i]) == -1)
 			return -1;
 	}
