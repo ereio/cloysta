@@ -6,23 +6,21 @@
 
 void echo_text(char arg[][ACOLS]) {
 	printf("%s", verify_text(arg));
-	fflush(stdout);
 }
 
 char* verify_text(char arg[][ACOLS]) {
 	char * tmp = malloc(sizeof(char) * 255);
 	*tmp = '\0';
 
-	for (int i = 1; i < margc - 1; i++) {
+	for (int i = 1; i < margc; i++) {
 		if (arg[i][0] == '$') {
 			char s[ACOLS];
 			strcpy(s, arg[i]+1);
 
-			char path[ACOLS];
-			strcpy(path, getenv(s));
+			char * env = getenv(s);
 
-			if (path != NULL)
-				strcpy(arg[i], path);
+			if (env != NULL)
+				strcpy(arg[i], env);
 			else
 				return "Error: environment variable not found\n";
 		}
