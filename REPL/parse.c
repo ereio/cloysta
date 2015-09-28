@@ -80,16 +80,12 @@ void fillCurr(char args[][ACOLS], int n){
 
 void fillBack(char args[][ACOLS], int n){
 
-	int pos = 0;
-	int slsh = 0;
-	char* csec;
 	char* cpath;
 	char* pwd = malloc(255 * sizeof(char));
 	char* mfpwd = pwd;
 
 	pwd =  getenv("PWD");
 
-	csec = strstr(args[n], "..");
 	cpath = strtok(args[n], "/");		/* Sections each path directive*/
 
 	while(cpath != NULL){				/* Either cuts or adds to pwd*/

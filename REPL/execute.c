@@ -31,6 +31,9 @@ int _execute(char args[][ACOLS])
 }
 
 int chgdir(char args[][ACOLS]){
+
+	char path[510];
+
 	if (margc > 2) {
 		printf("Error: too many arguments\n");
 	}
@@ -43,6 +46,10 @@ int chgdir(char args[][ACOLS]){
 
 		if (S_ISDIR(statbuf.st_mode)) {
 			chdir(args[1]);
+
+			strcat(path, "PWD=");
+			strcat(path, args[1]);
+			putenv(path);
 		}
 		else {
 			printf("Error: invalid directory\n");
