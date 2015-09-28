@@ -52,17 +52,14 @@ void resolve_paths(char args[][ACOLS]) {
 	int i;
 	int hit;
 	for(i = 0; i < margc; i++){
-		if(strstr(args[i],BACK) != NULL){
+		if(strstr(args[i], BACK) != NULL){
 			fillBack(args, i); hit++;
 		}
-		if(strstr(args[i],CURR) != NULL){
+		if(strstr(args[i], CURR) != NULL){
 			fillCurr(args, i); hit++;
 		}
 		if(strstr(args[i], tild) != NULL){
 			fillTild(args, i); hit++;
-		}
-		if(i == 0 && hit == 0){
-			fillPwd(args);
 		}
 	}
 }
@@ -74,23 +71,39 @@ void expand_variables(char args[][ACOLS]) {
 void fillCurr(char args[][ACOLS], int n){
 	char* totarg = malloc(255 * sizeof(char));
 	char* cursec = malloc(255 * sizeof(char));
+	int pos = 0;
 
-	cursec = strstr(args[n], "..");
+	cursec = strstr(args[n], "./");
+	pos = cursec - args[n];
+	sremove(args[n], pos, 2);
 }
 
 void fillBack(char args[][ACOLS], int n){
 
-	char* cursec = malloc(255 * sizeof(char));
-	char* pwd = getenv("PWD");
 	int pos = 0;
+	int slsh = 0;
+	char* csec;
+	char* cpath;
+	char* pwd = malloc(255 * sizeof(char));
+	char* mfpwd = pwd;
 
-	cursec = strstr(args[n], "..");
+	pwd =  getenv("PWD");
 
-	while(cursec != NULL){
-		pos = cursec - args[n];
-		cutpwd(pwd);
-		sinsert(args[n],pwd,pos,2);
+	csec = strstr(args[n], "..");
+	cpath = strtok(args[n], "/");		/* Sections each path directive*/
+
+	while(cpath != NULL){				/* Either cuts or adds to pwd*/
+		if(strcmp(cpath, "..") == 0){
+			cutpwd(pwd);
+		} else {
+			strcat(pwd,"/");
+			strcat(pwd,cpath);
+		}
+		cpath = strtok(NULL, "/");
 	}
+
+	strcpy(args[n],pwd);
+	free(mfpwd);
 }
 
 void fillTild(char args[][ACOLS], int n){
@@ -119,19 +132,40 @@ void sinsert(char* main, char* ins, int s, int flamt){
 	for(int j=0; j < ilen; j++, i++)
 		fullstr[i] = ins[j];
 
-	if(fullstr[i] == '/' && ins[0] == '/') prv++;
-
 	for(prv = s+flamt; i < mlen+ilen; i++, prv++)
 		fullstr[i] = main[prv];
 
 	strcpy(main, fullstr);
 }
 
+void sremove(char* main, int s, int size){
+	char* fullstr = malloc(510 * sizeof(char));
+	int mlen = strlen(main);
+
+	int i = 0;
+	int prv = s;
+
+	for(i=0; i < s; i++)
+		fullstr[i] = main[i];
+
+	for(prv = s+size; i < mlen; i++, prv++)
+		fullstr[i] = main[prv];
+
+	strcpy(main, fullstr);
+	free(fullstr);
+}
+
 void cutpwd(char* pwd){
 	char* last = strrchr(pwd, '/');
 	int pos = last - pwd;
 
-	pwd[pos+1] = '\0';
+	pwd[pos] = '\0';
+}
+
+void addpwd(char* pwd){
+	char* last = strrchr(pwd, '/');
+	int pos = last - pwd;
+
 }
 
 void fillPwd(char args[][ACOLS]){
