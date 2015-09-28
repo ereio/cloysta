@@ -12,6 +12,8 @@ void fillBack(char args[][ACOLS], int n);
 void fillCurr(char args[][ACOLS], int n);
 void fillTild(char args[][ACOLS], int n);
 void fillPwd(char args[][ACOLS]);
-void sinsert(char* main, char* ins);
+
+void sinsert(char* main, char* ins, int s, int flamt);
+void cutpwd(char* pwd);
 
 #endif

@@ -6,8 +6,8 @@
 
 int _prompt(char** settings)
 {
-	char* machine = getenv("COMPUTERNAME");
-	char* pwd = getenv("CD");
+	char* machine = getenv("MACHINE");
+	char* pwd = getenv("PWD");
 
 	if(machine == NULL) {
 		machine = malloc(128 * sizeof(char));

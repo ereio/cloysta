@@ -71,16 +71,26 @@ void expand_variables(char args[][ACOLS]) {
 
 }
 
-void fillBack(char args[][ACOLS], int n){
+void fillCurr(char args[][ACOLS], int n){
 	char* totarg = malloc(255 * sizeof(char));
 	char* cursec = malloc(255 * sizeof(char));
 
-	int i;
 	cursec = strstr(args[n], "..");
 }
 
-void fillCurr(char args[][ACOLS], int n){
+void fillBack(char args[][ACOLS], int n){
 
+	char* cursec = malloc(255 * sizeof(char));
+	char* pwd = getenv("PWD");
+	int pos = 0;
+
+	cursec = strstr(args[n], "..");
+
+	while(cursec != NULL){
+		pos = cursec - args[n];
+		cutpwd(pwd);
+		sinsert(args[n],pwd,pos,2);
+	}
 }
 
 void fillTild(char args[][ACOLS], int n){
@@ -95,8 +105,33 @@ void fillTild(char args[][ACOLS], int n){
 	strcpy(args[n], totarg);
 }
 
-void sinsert(char* main, char* ins){
+void sinsert(char* main, char* ins, int s, int flamt){
+	char* fullstr = malloc(510 * sizeof(char));
+	int mlen = strlen(main);
+	int ilen = strlen(ins);
 
+	int i = 0;
+	int prv = s;
+
+	for(i=0; i < s; i++)
+		fullstr[i] = main[i];
+
+	for(int j=0; j < ilen; j++, i++)
+		fullstr[i] = ins[j];
+
+	if(fullstr[i] == '/' && ins[0] == '/') prv++;
+
+	for(prv = s+flamt; i < mlen+ilen; i++, prv++)
+		fullstr[i] = main[prv];
+
+	strcpy(main, fullstr);
+}
+
+void cutpwd(char* pwd){
+	char* last = strrchr(pwd, '/');
+	int pos = last - pwd;
+
+	pwd[pos+1] = '\0';
 }
 
 void fillPwd(char args[][ACOLS]){

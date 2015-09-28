@@ -1,5 +1,5 @@
 C=gcc
-CFLAGS=-I. -ansi -pedantic -Wall
+CFLAGS=-I. -ansi -pedantic -Wall -std=c99 -D_XOPEN_SOURCE
 ALL_OBJS=setup.o prompt.o parse.o read.o execute.o memmy.o
 
 .PHONY : compile clean run tar
