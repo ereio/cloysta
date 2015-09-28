@@ -1,5 +1,6 @@
 #include "../global.h"
 #include "execute.h"
+#include "echo.h"
 #include <string.h>
 #include <stdio.h>
 
@@ -11,7 +12,7 @@ int _execute(char args[][ACOLS])
 	if(!strcmp(EXIT, args[0]))
 		run = 0;
 	else if(!strcmp(ECHO, args[0]))
-		dummy_test = 1;
+		echo_text(args);
 	else if(!strcmp(ETIME, args[0]))
 		dummy_test = 2;
 	else if(!strcmp(LIMITS, args[0]))

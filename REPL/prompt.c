@@ -4,9 +4,11 @@
 
 int _prompt(char** settings)
 {
-	char* user = getenv("USER");
-	char* machine = getenv("MACHINE");
-	char* pwd = getenv("PWD");
+	char* user = getenv("USERNAME");
+	char* machine = getenv("COMPUTERNAME");
+	char* pwd = getenv("CD");
+	if (pwd == NULL)
+		pwd = "Local";
 
 	printf("%s@%s: %s => ", user, machine, pwd);
 
