@@ -80,7 +80,6 @@ int etime(char args[][ACOLS]) {
 }
 
 int compute_limits(char args[][ACOLS]) {
-	pid_t pid = getpid();
 	char nested_args[255][ACOLS];
 	margc--;
 
@@ -88,31 +87,36 @@ int compute_limits(char args[][ACOLS]) {
 		strcpy(nested_args[i], args[i+1]);
 	}
 
-	_execute(nested_args);
+	pid_t childpid = fork();
 
-	char proc[50];
-	sprintf(proc, "/proc/%ld/limits/", (long)pid);
+	if (childpid == 0) {
+		pid_t pid = getpid();
 
-	printf("%s\n", proc);
+		char proc[50];
+		sprintf(proc, "/proc/%ld/limits/", (long)pid);
 
-	FILE * limits = fopen(proc, "r");
+		FILE * limits = fopen(proc, "r");
 
-	if (limits != NULL) {
+		_execute(nested_args);
+
+		if (limits != NULL) {
 		char line[255];
 
-		while (fgets(line, 255, limits) != NULL) {
-			printf("%s", line);
-			if (strstr(line, "Max file size"))
+			while (fgets(line, 255, limits) != NULL) {
 				printf("%s", line);
-			else if (strstr(line, "Max open files"))
-				printf("%s", line);
-			else if (strstr(line, "Max processes"))
-				printf("%s", line);
-			else if (strstr(line, "Max pending signals"))
-				printf("%s", line);
+				if (strstr(line, "Max file size"))
+					printf("%s", line);
+				else if (strstr(line, "Max open files"))
+					printf("%s", line);
+				else if (strstr(line, "Max processes"))
+					printf("%s", line);
+				else if (strstr(line, "Max pending signals"))
+					printf("%s", line);
+			}
 		}
 
 		fclose(limits);
 	}
+
 	return 0;
 }
