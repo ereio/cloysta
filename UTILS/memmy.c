@@ -78,8 +78,6 @@ int init_memmy(){
 
 	ADDRS = (struct address *) malloc(sizeof(struct address) * MAX_HEAP_SIZE);
 
-	printf("%i", (int) sizeof(ADDRS));
-
 	if(ADDRS == NULL) return 0;
 
 	for(i = 0; i < MAX_HEAP_SIZE; i++){

@@ -3,11 +3,11 @@
  * www.cplusplus.com/reference/cstring/strtok/
  *
  * */
+#include "../global.h"
 #include "parse.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "../global.h"
 
 void _parse(char* input, char args[][ACOLS]){
 
@@ -38,14 +38,68 @@ void parse_arguments(char* input, char args[][ACOLS]) {
 		i++;
 	}
 
+	margc = i;
 	memcpy(args, new_args, sizeof(new_args));
 	free(cur_arg);
 }
 
 void resolve_paths(char args[][ACOLS]) {
 
+	char* BACK = "..";
+	char* CURR = "./";
+	char* tild = "~";
+
+	int i;
+	int hit;
+	for(i = 0; i < margc; i++){
+		if(strstr(args[i],BACK) != NULL){
+			fillBack(args, i); hit++;
+		}
+		if(strstr(args[i],CURR) != NULL){
+			fillCurr(args, i); hit++;
+		}
+		if(strstr(args[i], tild) != NULL){
+			fillTild(args, i); hit++;
+		}
+		if(i == 0 && hit == 0){
+			fillPwd(args);
+		}
+	}
 }
 
 void expand_variables(char args[][ACOLS]) {
 
 }
+
+void fillBack(char args[][ACOLS], int n){
+	char* totarg = malloc(255 * sizeof(char));
+	char* cursec = malloc(255 * sizeof(char));
+
+	int i;
+	cursec = strstr(args[n], "..");
+}
+
+void fillCurr(char args[][ACOLS], int n){
+
+}
+
+void fillTild(char args[][ACOLS], int n){
+	char* home = getenv("HOME");
+	char* totarg = malloc(255 * sizeof(char));
+
+	if(args[n][0] == '~'){
+			strcat(totarg, home);
+			strcat(totarg, args[n]+1);
+	}
+
+	strcpy(args[n], totarg);
+}
+
+void sinsert(char* main, char* ins){
+
+}
+
+void fillPwd(char args[][ACOLS]){
+
+}
+

@@ -8,7 +8,7 @@
 #include "REPL/execute.h"
 #include "UTILS/memmy.h"
 
-/*  run/dumm... is an extern, it's a global and is not redefined but declared here */
+/* Global const defines */
 const char* EXIT = "exit";
 const char* ECHO = "echo";
 const char* ETIME = "etime";
@@ -20,8 +20,10 @@ const char* PREV_DIR_I = "..";
 const char* PREV_DIR_II = "./";
 const char* ARGS = "ARGS";
 const int ACOLS = 255;
-char* cuser;
 
+/* Globals */
+char* cuser;
+int margc = 0;
 int run = 1;
 int dummy_test = -5;
 

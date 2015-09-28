@@ -34,5 +34,6 @@ extern char* cuser;
 extern struct address * ADDRS;
 
 extern int dummy_test;
+extern int margc;
 extern int run;
 

@@ -8,4 +8,10 @@ void parse_arguments(char *input, char args[][255]);
 void resolve_paths(char args[][255]);
 void expand_variables(char args[][255]);
 
+void fillBack(char args[][ACOLS], int n);
+void fillCurr(char args[][ACOLS], int n);
+void fillTild(char args[][ACOLS], int n);
+void fillPwd(char args[][ACOLS]);
+void sinsert(char* main, char* ins);
+
 #endif
