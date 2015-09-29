@@ -172,12 +172,11 @@ int otroexec(char args[][ACOLS], char** pathops){
 
 		strcpy(cnfpath, *pathops);
 
-		for(i=1; i < margc; i++){
+		for(i=0; i < margc; i++){
 			eargs[i] = malloc(sizeof(char) * ACOLS);
 			strcpy(eargs[i], args[i]);
+			if(i == margc-1) eargs[i+1] = (char*)0;
 		}
-
-		strcpy(eargs[margc-1], "\0");
 
 		token = strtok(cnfpath, ":");
 
