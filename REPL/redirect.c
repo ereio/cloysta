@@ -26,6 +26,8 @@ int output_file(char args[][ACOLS]) {
 			strcpy(file, args[i+2]);
 	}
 
+	margc = margc - 2;
+
 	FILE * fp = freopen(file, "a", stdout);
 
 	if (fp != NULL)
@@ -52,6 +54,8 @@ int input_file(char args[][ACOLS]) {
 			strcpy(file, args[i+2]);
 	}
 
+	margc = margc - 2;
+
 	FILE * fp = fopen(file, "r");
 
 	if (fp != NULL) {
@@ -62,7 +66,7 @@ int input_file(char args[][ACOLS]) {
 			c = fscanf(fp, "%s", word);
 
 			if (c != EOF) {
-				strcpy(cmd[margc - 2], word);
+				strcpy(cmd[margc], word);
 				margc++;
 			}
 		} while (c != EOF);

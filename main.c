@@ -51,6 +51,7 @@ int main(int argc, char* args[])
 
 	while(run)
 	{
+		exec = 1;
 		 _setup();
 		 _prompt();
 		 if(_read(line)){
