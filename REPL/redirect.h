@@ -3,5 +3,6 @@
 
 int output_file(char args[][ACOLS]);
 int input_file(char args[][ACOLS]);
+int mpipe(char args[][ACOLS]);
 
 #endif

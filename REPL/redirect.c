@@ -1,3 +1,9 @@
+/* References:
+ * Creating Pipes http://www.tldp.org/LDP/lpg/node11.html
+ *
+ *
+ * */
+
 #include "../global.h"
 #include "redirect.h"
 #include "execute.h"
@@ -5,6 +11,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <semaphore.h>
 
 int output_file(char args[][ACOLS]) {
 	exec = 0; // Set the exec boolean so that execution doesn't occur twice
@@ -70,42 +77,58 @@ int input_file(char args[][ACOLS]) {
 	return 0;
 }
 
-int mpipe(){
-		pid_t pid;
+int mpipe(char args[][ACOLS]){
+		pid_t ipid =0;
+		pid_t jpid =0;
+		int fds[2], wbytes, rbytes;
+		int statusptr = 0;
+		char cmds[255][255];
 
-		int fds[2];
+		char mes[] = "12930938201928";
+		char* readbuffer = malloc(510 * sizeof(char));
+		exec = 0;
 
-		if(pipe(fds) == -1){
-			perror("Piping failed - exiting");
-			run = 0;
-			return EXIT_FAILURE;
+		/* Successful pipe and forking */
+		if((ipid = fork()) == 0){
+
+			if(pipe(fds) == -1){
+				perror("Piping failed - exiting");
+				run = 0;
+				return EXIT_FAILURE;
+			}
+			if((jpid = fork()) == 0){
+				//cmd1 (Writer) CHILD
+				close(STDOUT_FILENO);
+				dup(fds[1]);
+				close(fds[0]);
+				close(fds[1]);
+
+				wbytes = write(fds[1], mes, (strlen(mes)+1));
+			} else {
+				//cmd2 (Reader) PARENT
+				close(STDIN_FILENO);
+				dup(fds[0]);
+				close(fds[0]);
+				close(fds[1]);
+
+				rbytes = read(fds[0], readbuffer, sizeof(readbuffer));
+				printf("\nTesting: %s\n", readbuffer);
+			}
+
+			exit(0);
+		} else {
+			close(fds[0]);
+			close(fds[1]);
+			waitpid(-1, statusptr, 0);
 		}
 
-		if((pid = fork()) == -1){
+		if(ipid == -1 || jpid == -1){
 			perror("Forking failed - exiting");
 			run = 0;
 			return EXIT_FAILURE;
 		}
 
-		/* Successful pipe and forking */
-
-		if((pid = fork()) == 0){
-			//cmd1 (Writer)
-			close(STDOUT_FILENO);
-			dup(fds[1]);
-			close(fds[0]);
-			close(fds[1]);
-			// Execute Command
-
-		} else {
-			//cmd2 (Reader)
-			close(STDIN_FILENO);
-			dup(fds[0]);
-			close(fds[0]);
-			close(fds[1]);
-
-		}
-
 		return EXIT_SUCCESS;
 }
+
 

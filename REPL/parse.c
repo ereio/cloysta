@@ -52,7 +52,8 @@ void resolve_paths(char args[][ACOLS]) {
 	char* CURR = "./";
 	char* REDIRECTOUT = ">";
 	char* REDIRECTIN = "<";
-	char* tild = "~";
+	char* TILD = "~";
+	char* PIPE = "|";
 
 	int i;
 	int hit;
@@ -63,15 +64,17 @@ void resolve_paths(char args[][ACOLS]) {
 		if(strstr(args[i], CURR) != NULL){
 			fillCurr(args, i); hit++;
 		}
-		if(strstr(args[i], tild) != NULL){
+		if(strstr(args[i], TILD) != NULL){
 			fillTild(args, i); hit++;
 		}
 		if(strstr(args[i], REDIRECTOUT) != NULL){
-			printf("Let's do this\n");
 			output_file(args);
 		}
 		if(strstr(args[i], REDIRECTIN) != NULL){
 			input_file(args);
+		}
+		if(strstr(args[i], PIPE) != NULL){
+			mpipe(args);
 		}
 	}
 }
