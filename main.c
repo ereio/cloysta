@@ -24,7 +24,7 @@ const int ACOLS = 255;
 
 /* Globals */
 char* cuser;
-int margc = 0;
+int margc = 1;
 int run = 1;
 int exec = 1;
 int runbg = 0;

@@ -12,7 +12,7 @@
 
 int _execute(char args[][ACOLS])
 {
-	char* cfgpath;
+	char* cfgpath = NULL;
 
 	if(!strcmp(EXIT, args[0]))
 		run = 0;
