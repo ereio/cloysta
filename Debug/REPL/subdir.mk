@@ -9,6 +9,7 @@ C_SRCS += \
 ../REPL/parse.c \
 ../REPL/prompt.c \
 ../REPL/read.c \
+../REPL/redirect.c \
 ../REPL/setup.c 
 
 OBJS += \
@@ -17,6 +18,7 @@ OBJS += \
 ./REPL/parse.o \
 ./REPL/prompt.o \
 ./REPL/read.o \
+./REPL/redirect.o \
 ./REPL/setup.o 
 
 C_DEPS += \
@@ -25,6 +27,7 @@ C_DEPS += \
 ./REPL/parse.d \
 ./REPL/prompt.d \
 ./REPL/read.d \
+./REPL/redirect.d \
 ./REPL/setup.d 
 
 

@@ -56,9 +56,8 @@ int main(int argc, char* args[])
 		 if(_read(line)){
 			 /* Transform input
 				 Match against patterns */
-			 _parse(line, cmd);
-			if (exec)
-			 	_execute(cmd);
+			_parse(line, cmd);
+			if (exec) _execute(cmd);
 			  /* cleanup */
 		 } else {
 			 run = 0;
