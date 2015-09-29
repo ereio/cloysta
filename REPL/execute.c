@@ -163,17 +163,21 @@ int findexec(char args[][ACOLS], char** pathops){
 
 int otroexec(char args[][ACOLS], char** pathops){
 		pid_t pid;
-		int* status;
+		int* status = NULL;
 		int i =0;
 		char* cnfpath = malloc(sizeof(char) * strlen(*pathops) + 1);
-		char* eargs[2] = { "/bin/ls", NULL }; // TODO - ARGS NOT WORKING
+		char* eargs[margc];
 		char* token;
 		char path[255];
 
 		strcpy(cnfpath, *pathops);
 
-//		for(i=1; i < margc; i++)
-//			strcpy(eargs[i], args[i]);
+		for(i=1; i < margc; i++){
+			eargs[i] = malloc(sizeof(char) * ACOLS);
+			strcpy(eargs[i], args[i]);
+		}
+
+		strcpy(eargs[margc-1], "\0");
 
 		token = strtok(cnfpath, ":");
 
