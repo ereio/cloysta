@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <sys/time.h>
+#include <sys/wait.h>
 #include "../global.h"
 #include "echo.h"
 #include "execute.h"
@@ -163,10 +164,10 @@ int findexec(char args[][ACOLS], char** pathops){
 
 int otroexec(char args[][ACOLS], char** pathops){
 		pid_t pid;
-		int* status;
+		int* status = '\0';
 		int i =0;
 		char* cnfpath = malloc(sizeof(char) * strlen(*pathops) + 1);
-		char* eargs[2] = { "/bin/ls", NULL }; // TODO - ARGS NOT WORKING
+		char* eargs[2] = { "/bin/ls", NULL };
 		char* token;
 		char path[255];
 

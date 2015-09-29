@@ -12,6 +12,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <semaphore.h>
+#include <sys/wait.h>
 
 int output_file(char args[][ACOLS]) {
 	exec = 0; // Set the exec boolean so that execution doesn't occur twice
@@ -81,7 +82,7 @@ int mpipe(char args[][ACOLS]){
 		pid_t ipid =0;
 		pid_t jpid =0;
 		int fds[2], wbytes, rbytes;
-		int statusptr = 0;
+		int* statusptr = '\0';
 		char cmds[255][255];
 
 		char mes[] = "12930938201928";
