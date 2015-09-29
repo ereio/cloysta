@@ -97,7 +97,7 @@ int compute_limits(char args[][ACOLS]) {
 	char nested_args[255][ACOLS];
 	margc--;
 
-	for (int i = 0; i < ACOLS - 1; i++) {
+	for (int i = 0; i < margc; i++) {
 		strcpy(nested_args[i], args[i+1]);
 	}
 
@@ -129,6 +129,10 @@ int compute_limits(char args[][ACOLS]) {
 		fclose(limits);
 		_execute(nested_args);
 		printf("%s", print_buf);
+<<<<<<< HEAD
+=======
+		exit(0);
+>>>>>>> 81518098c6195919e21a5649fe071a81fdae5ed1
 	}
 
 	return 0;
