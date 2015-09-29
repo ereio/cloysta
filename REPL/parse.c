@@ -14,7 +14,6 @@ void _parse(char* input, char args[][ACOLS]){
 
 	parse_whitespace(input);
 	parse_arguments(input, args);
-	expand_variables(args);
 	resolve_paths(args);
 }
 
@@ -52,6 +51,7 @@ void resolve_paths(char args[][ACOLS]) {
 	char* REDIRECTIN = "<";
 	char* TILD = "~";
 	char* PIPE = "|";
+	char* ENVAR = "$";
 
 	int i;
 	int hit;
@@ -74,11 +74,27 @@ void resolve_paths(char args[][ACOLS]) {
 		if(strstr(args[i], PIPE) != NULL){
 			mpipe(args);
 		}
+		if(strstr(args[i], ENVAR) != NULL){
+			expand_variables(args, i);
+		}
 	}
 }
 
-void expand_variables(char args[][ACOLS]) {
+void expand_variables(char args[][ACOLS], int n) {
+	char* var = args[n];
+	char* evar = NULL;
+	char* tok = NULL;
 
+	if(var[0] != '$'){
+		perror("error: invalid usage of variables $");
+		exec = 0;
+		return;
+	}
+
+	tok = strtok(args[n], "$");
+
+	if((evar = getenv(tok)) != NULL)
+		strcpy(args[n], evar);
 }
 
 void fillCurr(char args[][ACOLS], int n){
