@@ -39,7 +39,7 @@ void parse_arguments(char* input, char args[][ACOLS]) {
 		i++;
 	}
 
-	strcpy(new_args[i+1],"\0");
+	new_args[i+1][0] = '0';
 
 	margc = i;
 	memcpy(args, new_args, sizeof(new_args));

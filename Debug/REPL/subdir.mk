@@ -3,6 +3,10 @@
 ################################################################################
 
 # Add inputs and outputs from these tool invocations to the build variables 
+O_SRCS += \
+../REPL/echo.o \
+../REPL/redirect.o 
+
 C_SRCS += \
 ../REPL/echo.c \
 ../REPL/execute.c \

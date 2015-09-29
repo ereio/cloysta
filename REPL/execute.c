@@ -163,41 +163,38 @@ int findexec(char args[][ACOLS], char** pathops){
 
 int otroexec(char args[][ACOLS], char** pathops){
 		pid_t pid;
-		int * status;
-
+		int* status;
+		int i =0;
 		char* cnfpath = malloc(sizeof(char) * strlen(*pathops) + 1);
-		char* eargs[255] = {"/bin/ls\0", "-al\0", '\0'};
+		char* eargs[2] = { "/bin/ls", NULL }; // TODO - ARGS NOT WORKING
 		char* token;
-
 
 		strcpy(cnfpath, *pathops);
 
-/*		for (int i = 0; i < margc - 1; i++){
-			eargs[i] = malloc(strlen(args[i+1]));
-			strcpy(eargs[i], args[i+1]);
-		}*/
+//		for(i=1; i < margc; i++)
+//			strcpy(eargs[i], args[i]);
 
+		token = strtok(cnfpath, ":");
+
+		while(token != NULL){
+			if(!access(token, X_OK)) break;
+			strcpy(eargs[0], token);
+			token = strtok(NULL, ":");
+		}
 
 		if ((pid = fork()) == -1){
 			perror("warning: Fork Error");
 
 		} else if (pid == 0) {
-			execv("/bin/ls\0", eargs);
-			exit(0);
-//			token = strtok(cnfpath, ":");
-//
-//			while(token != NULL){
-//				execv(token, eargs);
-//				token = strtok(NULL, ":");
-//			}
-//
-//			exit(1);
+			execv(token, eargs);
+			exit(1);
 
 		} else if(!runbg){
-			waitpid((int)pid, &status, 0);
+			waitpid(-1, status, 0);
 		} else {
 
 		}
 
+		free(cnfpath);
 		return 0;
 }
