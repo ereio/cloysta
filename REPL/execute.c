@@ -129,10 +129,7 @@ int compute_limits(char args[][ACOLS]) {
 		fclose(limits);
 		_execute(nested_args);
 		printf("%s", print_buf);
-<<<<<<< HEAD
-=======
 		exit(0);
->>>>>>> 81518098c6195919e21a5649fe071a81fdae5ed1
 	}
 
 	return 0;
