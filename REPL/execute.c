@@ -97,7 +97,7 @@ int compute_limits(char args[][ACOLS]) {
 	char nested_args[255][ACOLS];
 	margc--;
 
-	for (int i = 0; i < ACOLS - 1; i++) {
+	for (int i = 0; i < margc; i++) {
 		strcpy(nested_args[i], args[i+1]);
 	}
 
@@ -128,7 +128,8 @@ int compute_limits(char args[][ACOLS]) {
 
 		fclose(limits);
 		_execute(nested_args);
-		// printf("%s", print_buf);
+		printf("%s", print_buf);
+		exit(0);
 	}
 
 	return 0;
@@ -196,7 +197,7 @@ int otroexec(char args[][ACOLS], char** pathops){
 		} else if(!runbg){
 			waitpid(-1, status, 0);
 		} else {
-
+			printf("\n Running In Background\n");
 		}
 
 		free(cnfpath);

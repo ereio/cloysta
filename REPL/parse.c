@@ -52,6 +52,7 @@ void resolve_paths(char args[][ACOLS]) {
 	char* TILD = "~";
 	char* PIPE = "|";
 	char* ENVAR = "$";
+	char* BGPROC = "&";
 
 	int i;
 	int hit;
@@ -77,6 +78,9 @@ void resolve_paths(char args[][ACOLS]) {
 		if(strstr(args[i], ENVAR) != NULL){
 			expand_variables(args, i);
 		}
+		if(strstr(args[i], BGPROC) != NULL){
+			exebg(args, i);
+		}
 	}
 }
 
@@ -86,7 +90,7 @@ void expand_variables(char args[][ACOLS], int n) {
 	char* tok = NULL;
 
 	if(var[0] != '$'){
-		perror("error: invalid usage of variables $");
+		perror("error: invalid usage of environment variable expansion char $");
 		exec = 0;
 		return;
 	}
@@ -95,6 +99,20 @@ void expand_variables(char args[][ACOLS], int n) {
 
 	if((evar = getenv(tok)) != NULL)
 		strcpy(args[n], evar);
+}
+
+void exebg(char args[][ACOLS], int n){
+	int size = strlen(args[n]);
+	char* tok = NULL;
+	char* evar = NULL;
+
+	if(args[n][0] == '&'){
+		strcpy(args[n], "\0");
+		margc--; runbg = 1;
+	} else if(args[n][size-1] == '&') {
+		args[n][size-1] = '\0';
+		runbg = 1;
+	}
 }
 
 void fillCurr(char args[][ACOLS], int n){
