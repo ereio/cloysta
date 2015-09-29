@@ -168,6 +168,7 @@ int otroexec(char args[][ACOLS], char** pathops){
 		char* cnfpath = malloc(sizeof(char) * strlen(*pathops) + 1);
 		char* eargs[2] = { "/bin/ls", NULL }; // TODO - ARGS NOT WORKING
 		char* token;
+		char path[255];
 
 		strcpy(cnfpath, *pathops);
 
@@ -177,8 +178,7 @@ int otroexec(char args[][ACOLS], char** pathops){
 		token = strtok(cnfpath, ":");
 
 		while(token != NULL){
-			if(!access(token, X_OK)) break;
-			strcpy(eargs[0], token);
+			if(!access(token, X_OK)) strcpy(path, token);
 			token = strtok(NULL, ":");
 		}
 
@@ -186,7 +186,7 @@ int otroexec(char args[][ACOLS], char** pathops){
 			perror("warning: Fork Error");
 
 		} else if (pid == 0) {
-			execv(token, eargs);
+			execv(path, eargs);
 			exit(1);
 
 		} else if(!runbg){
