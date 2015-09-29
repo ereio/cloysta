@@ -25,6 +25,7 @@ extern const char* _DELIMS;
 extern const char* PREV_DIR_I;
 extern const char* PREV_DIR_II;
 extern const char* _PIPES;
+extern const char* EXPORT;
 
 extern const char* ARGS;
 extern const int ACOLS;
@@ -33,7 +34,7 @@ extern char* cuser;
 /* Globals  */
 extern struct address * ADDRS;
 
-extern int dummy_test;
 extern int margc;
 extern int run;
 extern int exec;
+extern int runbg;

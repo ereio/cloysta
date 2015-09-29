@@ -12,8 +12,12 @@
 
 int _execute(char args[][ACOLS])
 {
+	char* cfgpath;
+
 	if(!strcmp(EXIT, args[0]))
 		run = 0;
+	else if(!strcmp(EXPORT, args[0]))
+		expenv(args);
 	else if(!strcmp(ECHO, args[0]))
 		echo_text(args);
 	else if(!strcmp(ETIME, args[0]))
@@ -22,11 +26,16 @@ int _execute(char args[][ACOLS])
 		compute_limits(args);
 	else if(!strcmp(CD, args[0]))
 		chgdir(args);
+	else if(!findexec(args, &cfgpath))
+		otroexec(args, &cfgpath);
 
-	/* External, parse for command in path */
+	if(cfgpath != NULL) free(cfgpath);
 
-	/* run_external(input); */
-
+	return 0;
+}
+int expenv(char args[][ACOLS]){
+	// TODO - ERROR CHECKING
+	putenv(args[1]);
 	return 0;
 }
 
@@ -122,4 +131,73 @@ int compute_limits(char args[][ACOLS]) {
 	}
 
 	return 0;
+}
+
+int findexec(char args[][ACOLS], char** pathops){
+	char* pathenv = getenv("PATH");
+	char* path = malloc(sizeof(char) * strlen(pathenv) + 1);
+	char *token;
+
+	int i = 0;
+	int test = sizeof(char) * strlen(pathenv) * 255;
+	*pathops = malloc(test);
+	strcpy(*pathops, "\0");
+	strcpy(path, pathenv);
+	token = strtok(path, ":");
+
+	while(token != NULL){
+		char temp[255] = "\0";
+		strcpy(temp, token);
+		strcat(temp, "/");
+		strcat(temp, args[0]);
+		strcat(temp, "\0");
+		strcat(temp, ":");
+		strcat(*pathops, temp);
+		token = strtok(NULL, ":");
+		i++;
+	}
+
+	free(path);
+	return 0;
+}
+
+int otroexec(char args[][ACOLS], char** pathops){
+		pid_t pid;
+		int * status;
+
+		char* cnfpath = malloc(sizeof(char) * strlen(*pathops) + 1);
+		char* eargs[255] = {"/bin/ls\0", "-al\0", '\0'};
+		char* token;
+
+
+		strcpy(cnfpath, *pathops);
+
+/*		for (int i = 0; i < margc - 1; i++){
+			eargs[i] = malloc(strlen(args[i+1]));
+			strcpy(eargs[i], args[i+1]);
+		}*/
+
+
+		if ((pid = fork()) == -1){
+			perror("warning: Fork Error");
+
+		} else if (pid == 0) {
+			execv("/bin/ls\0", eargs);
+			exit(0);
+//			token = strtok(cnfpath, ":");
+//
+//			while(token != NULL){
+//				execv(token, eargs);
+//				token = strtok(NULL, ":");
+//			}
+//
+//			exit(1);
+
+		} else if(!runbg){
+			waitpid((int)pid, &status, 0);
+		} else {
+
+		}
+
+		return 0;
 }

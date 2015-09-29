@@ -84,7 +84,6 @@ void expand_variables(char args[][ACOLS]) {
 }
 
 void fillCurr(char args[][ACOLS], int n){
-	char* totarg = malloc(255 * sizeof(char));
 	char* cursec = malloc(255 * sizeof(char));
 	int pos = 0;
 

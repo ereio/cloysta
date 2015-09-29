@@ -13,6 +13,7 @@ const char* EXIT = "exit";
 const char* ECHO = "echo";
 const char* ETIME = "etime";
 const char* LIMITS = "limits";
+const char* EXPORT = "export";
 const char* CD = "cd";
 const char* _DELIMS = " \n";
 const char* _PIPES = "|<>";
@@ -25,8 +26,8 @@ const int ACOLS = 255;
 char* cuser;
 int margc = 0;
 int run = 1;
-int dummy_test = -5;
 int exec = 1;
+int runbg = 0;
 
 /* ALL EXITING TASKS DONE HERE */
 int exit_shell(){
@@ -50,7 +51,6 @@ int main(int argc, char* args[])
 
 	while(run)
 	{
-		exec = 1;
 		 _setup();
 		 _prompt();
 		 if(_read(line)){
