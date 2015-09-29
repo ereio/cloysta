@@ -39,6 +39,10 @@ int chgdir(char args[][ACOLS]){
 	}
 	else if (margc == 0) {
 		chdir(getenv("HOME"));
+
+		strcat(path, "PWD=");
+		strcat(path, getenv("HOME"));
+		putenv(path);
 	}
 	else {
 		struct stat statbuf;
@@ -88,34 +92,33 @@ int compute_limits(char args[][ACOLS]) {
 	}
 
 	pid_t childpid = fork();
+	char print_buf[400];
 
 	if (childpid == 0) {
 		pid_t pid = getpid();
 
 		char proc[50];
-		sprintf(proc, "/proc/%ld/limits/", (long)pid);
+		sprintf(proc, "/proc/%ld/limits", (long)pid);
 
 		FILE * limits = fopen(proc, "r");
 
-		_execute(nested_args);
-
 		if (limits != NULL) {
-		char line[255];
-
+			char line[255];
 			while (fgets(line, 255, limits) != NULL) {
-				printf("%s", line);
 				if (strstr(line, "Max file size"))
-					printf("%s", line);
+					sprintf(print_buf, "%s", line);
 				else if (strstr(line, "Max open files"))
-					printf("%s", line);
+					sprintf(print_buf + strlen(print_buf), "%s", line);
 				else if (strstr(line, "Max processes"))
-					printf("%s", line);
+					sprintf(print_buf + strlen(print_buf), "%s", line);
 				else if (strstr(line, "Max pending signals"))
-					printf("%s", line);
+					sprintf(print_buf + strlen(print_buf), "%s", line);
 			}
 		}
 
 		fclose(limits);
+		_execute(nested_args);
+		// printf("%s", print_buf);
 	}
 
 	return 0;

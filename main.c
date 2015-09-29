@@ -26,6 +26,7 @@ char* cuser;
 int margc = 0;
 int run = 1;
 int dummy_test = -5;
+int exec = 1;
 
 /* ALL EXITING TASKS DONE HERE */
 int exit_shell(){
@@ -49,13 +50,15 @@ int main(int argc, char* args[])
 
 	while(run)
 	{
+		exec = 1;
 		 _setup();
 		 _prompt();
 		 if(_read(line)){
 			 /* Transform input
 				 Match against patterns */
 			 _parse(line, cmd);
-			 _execute(cmd);
+			if (exec)
+			 	_execute(cmd);
 			  /* cleanup */
 		 } else {
 			 run = 0;

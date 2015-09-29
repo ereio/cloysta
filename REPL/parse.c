@@ -4,6 +4,7 @@
  *
  * */
 #include "../global.h"
+#include "redirect.h"
 #include "parse.h"
 #include <stdio.h>
 #include <string.h>
@@ -47,6 +48,8 @@ void resolve_paths(char args[][ACOLS]) {
 
 	char* BACK = "..";
 	char* CURR = "./";
+	char* REDIRECTOUT = ">";
+	char* REDIRECTIN = "<";
 	char* tild = "~";
 
 	int i;
@@ -60,6 +63,13 @@ void resolve_paths(char args[][ACOLS]) {
 		}
 		if(strstr(args[i], tild) != NULL){
 			fillTild(args, i); hit++;
+		}
+		if(strstr(args[i], REDIRECTOUT) != NULL){
+			printf("Let's do this\n");
+			output_file(args);
+		}
+		if(strstr(args[i], REDIRECTIN) != NULL){
+			input_file(args);
 		}
 	}
 }
