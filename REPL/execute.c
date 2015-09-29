@@ -128,7 +128,7 @@ int compute_limits(char args[][ACOLS]) {
 
 		fclose(limits);
 		_execute(nested_args);
-		// printf("%s", print_buf);
+		printf("%s", print_buf);
 	}
 
 	return 0;
@@ -188,17 +188,23 @@ int otroexec(char args[][ACOLS], char** pathops){
 
 		if ((pid = fork()) == -1){
 			perror("warning: Fork Error");
-
 		} else if (pid == 0) {
-			execv(path, eargs);
-			exit(1);
-
+			if (runbg) {
+				waitpid(pid, status, WNOHANG);
+				printf("[%d]+1\t\t[%d]\n", 1, pid);
+			} else {
+				execv(path, eargs);
+				exit(1);
+			}
 		} else if(!runbg){
 			waitpid(-1, status, 0);
-		} else {
-
+		} else { // what parent does when child is running in bg
+			printf("[%d]\t\t[%d]\n", 1, pid);
+			// continue loop
+			// print out [CMD#] [PID]
 		}
 
 		free(cnfpath);
 		return 0;
 }
+
