@@ -7,6 +7,7 @@
 #include "REPL/read.h"
 #include "REPL/execute.h"
 #include "UTILS/memmy.h"
+#include "main.h"
 
 /* Global const defines */
 const char* EXIT = "exit";
@@ -31,10 +32,8 @@ int runbg = 0;
 
 /* ALL EXITING TASKS DONE HERE */
 int exit_shell(){
-
 	return purge_memmy();
 }
-
 
 int main(int argc, char* args[])
 {
@@ -51,22 +50,26 @@ int main(int argc, char* args[])
 
 	while(run)
 	{
-		exec = 1;
-		 _setup();
-		 _prompt();
-		 if(_read(line)){
-			 /* Transform input
-				 Match against patterns */
-			_parse(line, cmd);
-			if (exec) _execute(cmd);
-			  /* cleanup */
-		 } else {
-			 run = 0;
-		 }
+		shell_loop(line, cmd);
 	}
 	
 	return exit_shell();
 }
 
+int shell_loop(char * line, char cmd[255][255]) {
+	exec = 1;
+        _setup();
+        _prompt();
 
+        if(_read(line)){
+                /* Transform input
+                        Match against patterns */
+                _parse(line, cmd);
+                if (exec) _execute(cmd);
+        	        /* cleanup */
+        } else {
+	      	run = 0;
+        }
 
+	return 0;
+}

@@ -175,6 +175,7 @@ int otroexec(char args[][ACOLS], char** pathops){
 		strcpy(cnfpath, *pathops);
 
 		for(i=0; i < margc; i++){
+			printf("%d: %s\n", i, args[i]);
 			eargs[i] = malloc(sizeof(char) * ACOLS);
 			strcpy(eargs[i], args[i]);
 			if(i == margc-1) eargs[i+1] = (char*)0;
@@ -191,18 +192,16 @@ int otroexec(char args[][ACOLS], char** pathops){
 			perror("warning: Fork Error");
 		} else if (pid == 0) {
 			if (runbg) {
-				waitpid(pid, status, WNOHANG);
-				printf("[%d]+1\t\t[%d]\n", 1, pid);
+				setpgid(0, 0);
+				execv(path, eargs);
 			} else {
 				execv(path, eargs);
 				exit(1);
 			}
 		} else if(!runbg){
 			waitpid(-1, status, 0);
-		} else { // what parent does when child is running in bg
+		} else {
 			printf("[%d]\t\t[%d]\n", 1, pid);
-			// continue loop
-			// print out [CMD#] [PID]
 		}
 
 		free(cnfpath);
