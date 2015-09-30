@@ -108,7 +108,8 @@ void exebg(char args[][ACOLS], int n){
 
 	if(args[n][0] == '&'){
 		strcpy(args[n], "\0");
-		margc--; runbg = 1;
+		margc--;
+		runbg = 1;
 	} else if(args[n][size-1] == '&') {
 		args[n][size-1] = '\0';
 		runbg = 1;

@@ -1,3 +1,8 @@
+/*
+ * http://unix.stackexchange.com/questions/139222/why-is-the-pgid-of-my-child-processes-not-the-pid-of-the-parent
+ * http://linux.die.net/man/2/waitpid
+ *
+ * */
 #include <string.h>
 #include <stdio.h>
 #include <sys/types.h>
@@ -165,6 +170,7 @@ int findexec(char args[][ACOLS], char** pathops){
 
 int otroexec(char args[][ACOLS], char** pathops){
 		pid_t pid;
+		pid_t fpid; // finished pid
 		int* status = NULL;
 		int i =0;
 		char* cnfpath = malloc(sizeof(char) * strlen(*pathops) + 1);
@@ -199,7 +205,9 @@ int otroexec(char args[][ACOLS], char** pathops){
 				exit(1);
 			}
 		} else if(!runbg){
-			waitpid(-1, status, 0);
+			while((fpid = waitpid(-pid, &status, 0)) != -1){
+				printf("Something happened");
+			}
 		} else {
 			printf("[%d]\t\t[%d]\n", 1, pid);
 		}
