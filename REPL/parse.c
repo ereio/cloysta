@@ -83,7 +83,7 @@ void resolve_paths(char args[][ACOLS]) {
 			input_file(args);
 		}
 		if(strstr(args[i], PIPE) != NULL){
-			mpipe(args);
+			findPipe(args, i);
 		}
 		if(strstr(args[i], ENVAR) != NULL){
 			expand_variables(args, i);
@@ -121,6 +121,9 @@ void exebg(char args[][ACOLS], int n){
 	} else if(args[n][size-1] == '&') {
 		args[n][size-1] = '\0';
 		runbg = 1;
+	} else {
+		perror("Error: incorrect usage of '&' operand");
+		exec = 0;
 	}
 }
 

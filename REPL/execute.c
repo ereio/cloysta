@@ -134,7 +134,6 @@ int compute_limits(char args[][ACOLS]) {
 		fclose(limits);
 		_execute(nested_args);
 		printf("%s", print_buf);
-		exit(0);
 	}
 
 	return 0;
@@ -172,12 +171,12 @@ int otroexec(char args[][ACOLS], char** pathops){
 		pid_t fpid; // finished pid
 		int status = NULL;
 		int i =0;
-		char* cnfpath = malloc(sizeof(char) * strlen(*pathops) + 1);
-		char* eargs[margc];
 		char* token;
+		char* eargs[margc];
+		char* cmdpath = malloc(sizeof(char) * strlen(*pathops) + 1);
 		char path[255];
 
-		strcpy(cnfpath, *pathops);
+		strcpy(cmdpath, *pathops);
 
 		for(i=0; i < margc; i++){
 			eargs[i] = malloc(sizeof(char) * ACOLS);
@@ -185,7 +184,7 @@ int otroexec(char args[][ACOLS], char** pathops){
 			if(i == margc-1) eargs[i+1] = (char*)0;
 		}
 
-		token = strtok(cnfpath, ":");
+		token = strtok(cmdpath, ":");
 
 		while(token != NULL){
 			if(!access(token, X_OK)) strcpy(path, token);
@@ -222,7 +221,7 @@ int otroexec(char args[][ACOLS], char** pathops){
 			fpid = waitpid(-1, &status, WNOHANG);
 		}
 
-		free(cnfpath);
+		free(cmdpath);
 		return 0;
 }
 

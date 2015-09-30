@@ -77,16 +77,54 @@ int input_file(char args[][ACOLS]) {
 	return 0;
 }
 
+int findPipe(char args[][ACOLS], int n){
+
+	if(margc < 3){
+		perror("Piping: Not enough arguments to pipe");
+		exec = 0;
+		return 1;
+	}
+
+	printf("\nWarning: Piping does not work correctly.\n");
+	mpipe(args);
+	exec = 0;
+	return 0;
+}
+
 int mpipe(char args[][ACOLS]){
 		pid_t ipid =0;
 		pid_t jpid =0;
 		int fds[2];
 		int* statusptr = NULL;
+//		char* c1args[1];
+//		char* c2args[1];
+//		char* tokI = NULL;
+//		char* tokII = NULL;
+//		char** potential = NULL;
+//		char** potential2 = NULL;
+		char* cmd1[2] = { "/bin/ls", NULL};
+		char* cmd2[2] = { "/bin/more", NULL};
 
-		char mes[] = "12930938201928";
-		char* readbuffer = malloc(510 * sizeof(char));
-		exec = 0;
-
+//		findexec(args, &potential);
+//		strcpy(args[0], args[2]);
+//		findexec(args, &potential2);
+//
+//		cmd1 = malloc(sizeof(char) * strlen(*potential) + 1);
+//		cmd2 = malloc(sizeof(char) * strlen(*potential2) + 1);
+//
+//		tokI = strtok(potential, ":");
+//
+//		while(tokI != NULL){
+//				if(!access(tokI, X_OK)) strcpy(cmd1, tokI);
+//				tokI = strtok(NULL, ":");
+//			}
+//
+//		tokII = strtok(potential2, ":");
+//
+//		while(tokII != NULL){
+//				if(!access(tokII, X_OK)) strcpy(cmd2, tokII);
+//				tokII = strtok(NULL, ":");
+//			}
 		/* Successful pipe and forking */
 		if((ipid = fork()) == 0){
 
@@ -102,7 +140,7 @@ int mpipe(char args[][ACOLS]){
 				close(fds[0]);
 				close(fds[1]);
 
-				write(fds[1], mes, (strlen(mes)+1));
+				execv("/bin/ls", cmd1);
 			} else {
 				//cmd2 (Reader) PARENT
 				close(STDIN_FILENO);
@@ -110,8 +148,7 @@ int mpipe(char args[][ACOLS]){
 				close(fds[0]);
 				close(fds[1]);
 
-				read(fds[0], readbuffer, sizeof(readbuffer));
-				printf("\nTesting: %s\n", readbuffer);
+				execv("/bin/more", cmd2);
 			}
 
 			exit(0);
@@ -120,6 +157,9 @@ int mpipe(char args[][ACOLS]){
 			close(fds[1]);
 			waitpid(-1, statusptr, 0);
 		}
+//
+//		free(potential);
+//		free(potential2);
 
 		if(ipid == -1 || jpid == -1){
 			perror("Forking failed - exiting");
