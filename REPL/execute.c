@@ -52,7 +52,7 @@ int chgdir(char args[][ACOLS]){
 	if (margc > 2) {
 		printf("Error: too many arguments\n");
 	}
-	else if (margc == 0) {
+	else if (margc == 1) {
 		chdir(getenv("HOME"));
 
 		strcat(path, "PWD=");
