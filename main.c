@@ -29,6 +29,7 @@ int margc = 1;
 int run = 1;
 int exec = 1;
 int runbg = 0;
+pid_t bgproc = 0;
 
 /* ALL EXITING TASKS DONE HERE */
 int exit_shell(){

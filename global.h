@@ -1,8 +1,10 @@
 /* Global References for Command Strings, Deliminators, etc. */
 #ifndef _SIZE_T
 #include <stddef.h>
+#include <stdio.h>
 #endif
 
+#include <sys/types.h>
 /* Defines  */
 #define MAX_HEAP_SIZE 255
 #define MAX_ADDR_NAME 16
@@ -14,6 +16,7 @@ struct address{
 	size_t type;
 	char name[16];
 };
+extern pid_t bgproc;
 
 /* Constants  */
 extern const char* EXIT;

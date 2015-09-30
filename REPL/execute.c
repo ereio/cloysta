@@ -171,7 +171,7 @@ int findexec(char args[][ACOLS], char** pathops){
 int otroexec(char args[][ACOLS], char** pathops){
 		pid_t pid;
 		pid_t fpid; // finished pid
-		int* status = NULL;
+		int status = NULL;
 		int i =0;
 		char* cnfpath = malloc(sizeof(char) * strlen(*pathops) + 1);
 		char* eargs[margc];
@@ -194,9 +194,9 @@ int otroexec(char args[][ACOLS], char** pathops){
 			token = strtok(NULL, ":");
 		}
 
-		if ((pid = fork()) == -1){
+		if ((bgproc = fork()) == -1){
 			perror("warning: Fork Error");
-		} else if (pid == 0) {
+		} else if (bgproc == 0) {
 			if (runbg) {
 				setpgid(0, 0);
 				execv(path, eargs);
@@ -205,11 +205,17 @@ int otroexec(char args[][ACOLS], char** pathops){
 				exit(1);
 			}
 		} else if(!runbg){
-			while((fpid = waitpid(-pid, &status, 0)) != -1){
-				printf("Something happened");
+			while((fpid = waitpid(-1, &status, WNOHANG)) != -1){
+				if(WIFEXITED(status) && fpid > 0){
+					printf("Exit status %d\n", fpid);
+				}
 			}
 		} else {
-			printf("[%d]\t\t[%d]\n", 1, pid);
+			printf("[%d]\t\t[%d]\n", 1, bgproc);
+			fpid = waitpid(-1, &status, WNOHANG);
+			if(fpid > 0){
+				printf("Exit status %d\n", fpid);
+			}
 		}
 
 		free(cnfpath);
