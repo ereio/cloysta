@@ -58,8 +58,7 @@ int main(int argc, char* args[])
 }
 
 int shell_loop(char * line, char cmd[255][255]) {
-	exec = 1;
-        _setup();
+        _setup(cmd);
         _prompt();
 
         if(_read(line)){

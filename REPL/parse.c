@@ -30,6 +30,12 @@ void parse_arguments(char* input, char args[][ACOLS]) {
 
 	memcpy(new_args, args, sizeof(new_args));
 
+	if(strcmp(input, "\n") == 0){
+		exec = 0;
+		strcpy(new_args[0],"\n");
+		return;
+	}
+
 	cur_arg = strtok(input, _DELIMS);
 
 	while(cur_arg != NULL && i < 255){
@@ -53,9 +59,13 @@ void resolve_paths(char args[][ACOLS]) {
 	char* PIPE = "|";
 	char* ENVAR = "$";
 	char* BGPROC = "&";
+	char* NL = "\n";
 
 	int i;
 	int hit;
+
+	if(strcmp(args[0], "\n") == 0) return;
+
 	for(i = 0; i < margc; i++){
 		if(strstr(args[i], BACK) != NULL){
 			fillBack(args, i); hit++;
