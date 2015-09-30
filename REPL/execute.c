@@ -205,17 +205,23 @@ int otroexec(char args[][ACOLS], char** pathops){
 				exit(1);
 			}
 		} else if(!runbg){
-			while((fpid = waitpid(-1, &status, WNOHANG)) != -1){
-				if(WIFEXITED(status) && fpid > 0){
-					printf("Exit status %d\n", fpid);
-				}
-			}
+			fpid = waitpid(bgproc, &status, 0);
 		} else {
 			printf("[%d]\t\t[%d]\n", 1, bgproc);
-			fpid = waitpid(-1, &status, WNOHANG);
+		}
+
+		/* Check to see if process is finished running
+		 * Collects all that may be exitting */
+		fpid = waitpid(-1, &status, WNOHANG);
+
+		while(fpid != 0 && fpid != -1){
 			if(fpid > 0){
-				printf("Exit status %d\n", fpid);
+				printf("Process %d finished \n", fpid);
 			}
+			if(fpid < 0){
+				printf("Process %d finished with error \n", fpid);
+			}
+			fpid = waitpid(-1, &status, WNOHANG);
 		}
 
 		free(cnfpath);
