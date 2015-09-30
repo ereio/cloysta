@@ -18,7 +18,13 @@
 #include <sys/stat.h>
 
 int output_file(char args[][ACOLS]) {
-	exec = 0; // Set the exec boolean so that execution doesn't occur twice
+	exec = 0;
+
+	if (margc < 3) {
+		printf("error: invalid redirect\n");
+		return 0;
+	}
+
 	char cmd[ACOLS][ACOLS];
 	char file[255];
 
@@ -51,6 +57,12 @@ int output_file(char args[][ACOLS]) {
 
 int input_file(char args[][ACOLS]) {
 	exec = 0;
+
+        if (margc < 3) {
+                printf("error: invalid redirect\n");
+                return 0;
+        }
+
 	char cmd[ACOLS][ACOLS];
 	char file[255];
 
