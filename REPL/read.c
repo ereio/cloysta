@@ -9,6 +9,7 @@ int _read(char* line)
 
 	fgets(str, 255, stdin);
 	strcpy(line, str);
+	fflush(stdin);
 
 	if(str != NULL) free(str);
 
