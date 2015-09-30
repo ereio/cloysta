@@ -13,6 +13,9 @@
 #include <stdio.h>
 #include <semaphore.h>
 #include <sys/wait.h>
+#include <fcntl.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 int output_file(char args[][ACOLS]) {
 	exec = 0; // Set the exec boolean so that execution doesn't occur twice
@@ -28,16 +31,20 @@ int output_file(char args[][ACOLS]) {
 
 	margc = margc - 2;
 
-	FILE * fp = freopen(file, "a", stdout);
+	int saved_stdout = dup(STDOUT_FILENO);
+	int saved_stderr = dup(STDERR_FILENO);
+	int out = open(file, O_WRONLY | O_TRUNC | O_CREAT, S_IRUSR | S_IRGRP | S_IWGRP | S_IWUSR);
+	
+	dup2(out, STDOUT_FILENO);
+	dup2(out, STDERR_FILENO);
+	close(out);
 
-	if (fp != NULL)
-		_execute(cmd);
-	else
-		printf("Error: invalid redirect\n");
+	_execute(cmd);
 
-	fclose(fp);
-
-	freopen("/dev/tty", "a", stdout);
+	dup2(saved_stdout, STDOUT_FILENO);
+	dup2(saved_stderr, STDERR_FILENO);
+	close(saved_stdout);
+	close(saved_stderr);
 
 	return 0;
 }
@@ -56,28 +63,16 @@ int input_file(char args[][ACOLS]) {
 
 	margc = margc - 2;
 
-	FILE * fp = fopen(file, "r");
+	int saved_stdin = dup(STDIN_FILENO);
+	int in = open(file, O_RDONLY);
 
-	if (fp != NULL) {
-		char word[100];
-		char c;
+	dup2(in, STDIN_FILENO);
+	close(in);
 
-		do {
-			c = fscanf(fp, "%s", word);
+	_execute(cmd);
 
-			if (c != EOF) {
-				strcpy(cmd[margc], word);
-				margc++;
-			}
-		} while (c != EOF);
-
-		_execute(cmd);
-	}
-	else {
-		printf("Error: invalid redirect\n");
-	}
-
-	fclose(fp);
+	dup2(saved_stdin, STDIN_FILENO);
+	close(saved_stdin);
 
 	return 0;
 }
