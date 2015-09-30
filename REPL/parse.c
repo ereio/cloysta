@@ -64,7 +64,7 @@ void resolve_paths(char args[][ACOLS]) {
 	int i;
 	int hit;
 
-	if(strcmp(args[0], "\n") == 0) return;
+	if(strcmp(args[0], NL) == 0) return;
 
 	for(i = 0; i < margc; i++){
 		if(strstr(args[i], BACK) != NULL){
@@ -113,8 +113,6 @@ void expand_variables(char args[][ACOLS], int n) {
 
 void exebg(char args[][ACOLS], int n){
 	int size = strlen(args[n]);
-	char* tok = NULL;
-	char* evar = NULL;
 
 	if(args[n][0] == '&'){
 		strcpy(args[n], "\0");

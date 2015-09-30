@@ -80,9 +80,8 @@ int input_file(char args[][ACOLS]) {
 int mpipe(char args[][ACOLS]){
 		pid_t ipid =0;
 		pid_t jpid =0;
-		int fds[2], wbytes, rbytes;
+		int fds[2];
 		int* statusptr = NULL;
-		char cmds[255][255];
 
 		char mes[] = "12930938201928";
 		char* readbuffer = malloc(510 * sizeof(char));
@@ -103,7 +102,7 @@ int mpipe(char args[][ACOLS]){
 				close(fds[0]);
 				close(fds[1]);
 
-				wbytes = write(fds[1], mes, (strlen(mes)+1));
+				write(fds[1], mes, (strlen(mes)+1));
 			} else {
 				//cmd2 (Reader) PARENT
 				close(STDIN_FILENO);
@@ -111,7 +110,7 @@ int mpipe(char args[][ACOLS]){
 				close(fds[0]);
 				close(fds[1]);
 
-				rbytes = read(fds[0], readbuffer, sizeof(readbuffer));
+				read(fds[0], readbuffer, sizeof(readbuffer));
 				printf("\nTesting: %s\n", readbuffer);
 			}
 

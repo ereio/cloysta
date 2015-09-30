@@ -169,7 +169,6 @@ int findexec(char args[][ACOLS], char** pathops){
 }
 
 int otroexec(char args[][ACOLS], char** pathops){
-		pid_t pid;
 		pid_t fpid; // finished pid
 		int status = NULL;
 		int i =0;
