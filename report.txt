@@ -1,0 +1,137 @@
+=========================================
+Problem Statement
+=========================================
+Design and implement a basic shell interface that supports input/output 
+redirection, pipes, background processing, and a series of built in 
+functions as specified below. The shell should be robust (e.g. it
+should not crash under any circumstance beyond machine failure). The 
+required features should adhere to the operational semantics of the bash shell. 
+
+=========================================
+Steps Taken to Solve Problem
+=========================================
+- Messed around with the terminal in Mac and Linux, as well as linprog to see
+the behavior of the commands.
+- Started with the project.
+- Added memory management.
+- Parsing simple arguments.
+- Implemented path resolution.
+- Got generic programs to work.
+- Worked on limits.
+- Implemented io redirection.
+- Implemented piping.
+
+==========================================
+Assumptions
+==========================================
+Multiple redirections of the same type will not be used at the same time.
+
+==========================================
+System Calls
+==========================================
+stdio.h - printf, fgets
+stdlib.h - malloc, fork, execv, free, getenv, setenv, perror
+string.h - strcat, strcpy, strtok, strcmp
+sys/types.h - pid_t
+sys/stat.h
+unistd.h - dup, dup2, close, open, pipe
+fcntl.h - close, open
+time.h
+sys/time.h
+sys/wait.h
+sys/param.h
+semaphore.h
+
+==========================================
+Problems
+==========================================
+- Major issues with execv due to how we handled
+the command line arguments.
+- A lot of seg faults when implementing memory
+management.
+- Trouble with parsing the path variable because
+strtok function was changing the PATH env variable.
+- Limits was confusing to implement.
+- Redirection got a bit messy.
+- Linprog was really slow.
+- Major issues setting up Eclipse environment
+on Windows and Mac.
+- Pipelining. 
+
+===========================================
+Known Bugs
+===========================================
+- Limits doesn't print external commands correctly.
+- Piping not functional.
+- Multiple redirection doesn't work.
+- Parsing a \n when you have it delimming the input results in undefined behavior
+
+
+===========================================
+Division of Labor
+===========================================
+Zach Diemer
+- i/o redirection.
+- external commands execution
+- Commands.
+- background processes
+- piping
+Taylor Ereio
+- parsing
+- execution
+- commands
+- background processes
+- exit
+Ricardo Noriega
+- background processes
+- parsing
+- external command execution
+- README
+- Report
+
+===========================================
+Slack Days Used
+===========================================
+1 day from Ricardo Noriega
+1 day from Zach Diemer
+1 day from Taylor Ereio
+
+===========================================
+Log
+===========================================
+9/29/15
+- project completed
+- fixed several bugs
+- background processes
+- fixed io redirection
+
+9/28/15
+- fixed various bugs
+
+9/27/15
+- execution of external commands
+- touched up on mem allocation
+- limits
+
+9/26/15
+- execute
+- echo
+- path resolution
+
+9/23/15
+- parsing
+
+9/13/15
+- started project
+- memory management
+- environment setup
+
+
+
+
+
+
+
+
+
+
