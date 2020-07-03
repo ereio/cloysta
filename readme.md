@@ -1,39 +1,7 @@
 /**    Cloysta - A Simple Shell for Linux        **/
 
-Member 1: Zach Diemer zd12c
-Member 2: Taylor Ereio tte11
-Member 3: Ricardo Noriega ran11
-
-This shell is intended for submittion for Florida State's Operating Systems course Fall 2015
-
-cloysta.tar contents:
-	README.txt
-	Report.txt
-	global.h
-	main.c
-	makefile
-	UTILS
-	L______	memmy.c
-	L______	memmy.h
-	L______	util.c
-	REPL
-	L______	echo.c
-	L______	echo.h
-	L______	execute.c
-	L______	execute.h
-	L______	parse.c
-	L______	parse.h
-	L______	prompt.c
-	L______	prompt.h
-	L______	read.c
-	L______	read.h
-	L______	redirect.c
-	L______	redirect.h
-	L______	setup.c
-	L______	setup.h
-
-Completed using: linprog and the Eclipse IDE for C/C++ Developers
-
+This shell was intended for submittion for Florida State's Operating Systems course Fall 2015
+ 
 To build:
 $> make
 
