@@ -1,4 +1,6 @@
-/**    Cloysta - A Simple Shell for Linux        **/
+# Cloysta
+
+## A Simple Shell for Linux 
 
 This shell was intended for submittion for Florida State's Operating Systems course Fall 2015
  
